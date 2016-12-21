@@ -1,5 +1,7 @@
 build
 target
-
+Compensation.iml
+Compensation.ipr
+Compensation.iws
 debug.log
 .idea
