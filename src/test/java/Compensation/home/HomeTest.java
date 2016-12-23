@@ -8,6 +8,7 @@ import org.junit.*;
 import org.junit.rules.TestRule;
 import org.openqa.selenium.By;
 
+import static Compensation.core.TAGS.*;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.*;
@@ -38,6 +39,13 @@ public class HomeTest {
         $("#id_username").setValue(userInputs.getValue("user", "username"));
         $("#id_password").setValue(userInputs.getValue("user", "password")).pressEnter();
         $(By.xpath("//a[contains(.,'Logout')]")).waitUntil(appear, 5000).shouldBe(exist);
+    }
+
+    @Test
+    public void tt() {
+        functions.logIn(USER);
+        System.out.println("vsyo");
+        sleep(9999);
     }
 
 }

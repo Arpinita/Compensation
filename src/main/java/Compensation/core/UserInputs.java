@@ -17,50 +17,48 @@ public class UserInputs {
     public void user() {
         User user = new User();
         User user0 = new User();
-
+        User user1 = new User();
 
         //user
         userInfo = new HashMap<>();
-        user.type = "";
+        user.company = "";
         user.username = "stdevqa";
         user.password = "Password";
-        user.firstName = "STDevQA";
+        user.name = "";
         user.lastName = "";
         user.email = user.username + "@stdevmail.com";
-        userInfo.put("type", user.type);
+        userInfo.put("company", user.company);
         userInfo.put("username", user.username);
         userInfo.put("password", user.password);
-        userInfo.put("firstName", user.firstName);
+        userInfo.put("name", user.name);
         userInfo.put("lastName", user.lastName);
         userInfo.put("email", user.email);
         userMap.put("user", userInfo);
 
-        //user0
+        //user1
         userInfo = new HashMap<>();
-        user0.type = "admin";
-        user0.username = "admin";
-        user0.password = "pass1234";
-        user0.firstName = "STDevQA";
-        user0.lastName = "Nine";
-        user0.email = user0.username + "@stdevmail.com";
-        userInfo.put("type", user0.type);
-        userInfo.put("username", user0.username);
-        userInfo.put("password", user0.password);
-        userInfo.put("firstName", user0.firstName);
-        userInfo.put("lastName", user0.lastName);
-        userInfo.put("email", user0.email);
-        userMap.put("user0", userInfo);
-
+        user1.company = "admin";
+        user1.username = "stdevqa5";
+        user1.password = "STDev123";
+        user1.name = "STDevQA";
+        user1.lastName = "Five";
+        user1.email = user1.username + "@stdevmail.com";
+        userInfo.put("company", user1.company);
+        userInfo.put("username", user1.username);
+        userInfo.put("password", user1.password);
+        userInfo.put("name", user1.name);
+        userInfo.put("lastName", user1.lastName);
+        userInfo.put("email", user1.email);
+        userMap.put("user1", userInfo);
 
     }
 
     public static class User {
-        public String type;
+        public String company;
         public String username;
         public String password;
-        public String firstName;
+        public String name;
         public String lastName;
         public String email;
-        public String id;
     }
 }
