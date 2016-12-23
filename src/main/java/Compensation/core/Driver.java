@@ -35,8 +35,10 @@ public class Driver {
             webdriver = path + "operadriver32";
         } else if (Windows && drive == EDGE) {
             webdriver = path + "edge.exe";
-        } else if (Windows && drive == FIREFOX) {
-            webdriver = path + "geckodriver.exe";
+        } else if (Linux && arch64 == true && drive == FIREFOX) {
+            webdriver = path + "geckodriver64";
+        } else if (Linux && arch32 == true && drive == FIREFOX) {
+            webdriver = path + "geckodriver32";
         } else if (Windows && drive == IE) {
             webdriver = path + "iedriver.exe";
         }
@@ -54,7 +56,7 @@ public class Driver {
                 break;
             case FIREFOX:
                 System.setProperty("webdriver.gecko.driver", webdriver);
-                Configuration.browser = "friefox";
+                Configuration.browser = "firefox";
                 open(url);
                 break;
             case OPERA:
