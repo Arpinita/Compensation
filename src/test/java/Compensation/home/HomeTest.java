@@ -40,12 +40,4 @@ public class HomeTest {
         $("#id_password").setValue(userInputs.getValue("user", "password")).pressEnter();
         $(By.xpath("//a[contains(.,'Logout')]")).waitUntil(appear, 5000).shouldBe(exist);
     }
-
-    @Test
-    public void tt() {
-        functions.logIn(USER);
-        System.out.println("vsyo");
-        sleep(9999);
-    }
-
 }
