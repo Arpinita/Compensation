@@ -8,7 +8,6 @@ import org.junit.*;
 import org.junit.rules.TestRule;
 import org.openqa.selenium.By;
 
-import static Compensation.core.TAGS.*;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.*;
