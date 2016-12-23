@@ -23,7 +23,6 @@ public class Functions {
     }
 
     public void logIn(int userN) {
-        UserInputs user = new UserInputs();
         user.user();
         String username = "";
         String password = "";

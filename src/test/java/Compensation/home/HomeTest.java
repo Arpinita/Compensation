@@ -1,8 +1,6 @@
 package Compensation.home;
 
-import Compensation.core.Driver;
-import Compensation.core.Functions;
-import Compensation.core.UserInputs;
+import Compensation.core.*;
 import com.codeborne.selenide.junit.TextReport;
 import org.junit.*;
 import org.junit.rules.TestRule;
