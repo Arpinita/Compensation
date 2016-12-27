@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class Driver {
     int drive = CHROME;
-    String url = "http://compensation.codebnb.me";
+    public String url = "http://compensation.codebnb.me";
 
 
     public void Driver() {
@@ -39,6 +39,8 @@ public class Driver {
             webdriver = path + "geckodriver64";
         } else if (Linux && arch32 == true && drive == FIREFOX) {
             webdriver = path + "geckodriver32";
+        } else if (Windows && drive == FIREFOX) {
+            webdriver = path + "geckodriver.exe";
         } else if (Windows && drive == IE) {
             webdriver = path + "iedriver.exe";
         }

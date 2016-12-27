@@ -6,6 +6,7 @@ import static Compensation.core.TAGS.USER;
 import static Compensation.core.TAGS.USER1;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 
 public class Functions {
     UserInputs user = new UserInputs();
@@ -13,6 +14,11 @@ public class Functions {
 
     public void driver() {
         driver.Driver();
+    }
+
+    public void driverLogin() {
+        driver();
+        logIn();
     }
 
     public void logIn() {
@@ -41,9 +47,17 @@ public class Functions {
         $("#id_password").setValue(password).pressEnter();
     }
 
-    public void driverLogin() {
-        driver();
-        logIn();
+    public void confirmUser(String username) {
+        open(driver.url + "/admin");
+        user.user();
+        $("#id_username").setValue(user.getValue("user", "username"));
+        $("#id_password").setValue(user.getValue("user", "password")).pressEnter();
+        $(By.xpath("//a[contains(.,'User requests')]")).click();
+        $(By.xpath("//a[contains(.,'" +username + "')]//../../td[1]//input[@type='checkbox']")).click();
+        $(By.xpath("//select[@name='action']")).click();
+        $(By.xpath("//option[contains(.,'Confirm user')]")).click();
+        $(By.xpath("//button[contains(.,'Go')]")).click();
+
     }
 
     public void driverLogin(int userN) {

@@ -13,13 +13,12 @@ import static com.codeborne.selenide.Selenide.*;
 public class HomeTest {
     @Rule
     public TestRule report = new TextReport().onFailedTest(true).onSucceededTest(true);
-    Driver driver = new Driver();
     UserInputs userInputs = new UserInputs();
     Functions functions = new Functions();
 
     @Before
     public void doBefore() {
-        driver.Driver();
+        functions.driver();
     }
 
     @After
@@ -36,5 +35,11 @@ public class HomeTest {
         $("#id_username").setValue(userInputs.getValue("user", "username"));
         $("#id_password").setValue(userInputs.getValue("user", "password")).pressEnter();
         $(By.xpath("//a[contains(.,'Logout')]")).waitUntil(appear, 5000).shouldBe(exist);
+    }
+
+    @Test
+    public void signUp() {
+        functions.acceptUser("btins");
+
     }
 }
