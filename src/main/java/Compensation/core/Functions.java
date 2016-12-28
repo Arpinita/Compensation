@@ -47,19 +47,6 @@ public class Functions {
         $("#id_password").setValue(password).pressEnter();
     }
 
-    public void confirmUser(String username) {
-        open(driver.url + "/admin");
-        user.user();
-        $("#id_username").setValue(user.getValue("user", "username"));
-        $("#id_password").setValue(user.getValue("user", "password")).pressEnter();
-        $(By.xpath("//a[contains(.,'User requests')]")).click();
-        $(By.xpath("//a[contains(.,'" +username + "')]//../../td[1]//input[@type='checkbox']")).click();
-        $(By.xpath("//select[@name='action']")).click();
-        $(By.xpath("//option[contains(.,'Confirm user')]")).click();
-        $(By.xpath("//button[contains(.,'Go')]")).click();
-
-    }
-
     public void driverLogin(int userN) {
         driver();
         switch (userN) {
@@ -70,5 +57,22 @@ public class Functions {
                 logIn(USER1);
                 break;
         }
+    }
+
+    public void confirmUser(String username) {
+        Inputs inputs = new Inputs();
+        open(driver.url + "/admin");
+        user.user();
+        $("#id_username").setValue(user.getValue("user", "username"));
+        $("#id_password").setValue(user.getValue("user", "password")).pressEnter();
+        $(By.xpath("//a[contains(.,'User requests')]")).click();
+        $(By.xpath("//a[contains(.,'" + username + "')]//../../td[1]//input[@type='checkbox']")).click();
+        $(By.xpath("//select[@name='action']")).click();
+        $(By.xpath("//option[contains(.,'Confirm user')]")).click();
+        $(By.xpath("//button[contains(.,'Go')]")).click();
+        $("#id_username").setValue(username);
+        $("#id_password").setValue(inputs.password);
+        System.out.println("password = " + inputs.password);
+        $(By.xpath("//input[@type='submit']")).click();
     }
 }

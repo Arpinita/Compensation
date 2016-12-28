@@ -36,4 +36,9 @@ public class HomeTest {
         $("#id_password").setValue(userInputs.getValue("user", "password")).pressEnter();
         $(By.xpath("//a[contains(.,'Logout')]")).waitUntil(appear, 5000).shouldBe(exist);
     }
+
+    @Test
+    public void aa() {
+        functions.confirmUser("autottt");
+    }
 }

@@ -19,6 +19,7 @@ public class Inputs {
     }
 
     public String auto = "auto" + randomAtoZ();
+    public String password = "Password";
 
     public String randomAtoZ() {
         char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
