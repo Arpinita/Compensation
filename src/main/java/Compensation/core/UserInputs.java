@@ -38,7 +38,7 @@ public class UserInputs {
         userInfo = new HashMap<>();
         user1.company = "admin";
         user1.username = "stdevqa5";
-        user1.password = "STDev123";
+        user1.password = "Password";
         user1.name = "STDevQA";
         user1.lastName = "Five";
         user1.email = user1.username + "@stdevmail.com";

@@ -6,6 +6,7 @@ import org.junit.*;
 import org.junit.rules.TestRule;
 import org.openqa.selenium.By;
 
+import static Compensation.core.TAGS.USER1;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -37,7 +38,7 @@ public class HomeTest {
         //empty fields
         $(By.xpath("//a[contains(.,'Sign in')]")).waitUntil(appear, 5000).click();
         $(By.xpath("//input[@value='Login']")).click();
-        $$(By.xpath("//span[contains(.,'This field is required.')]")).shouldHaveSize(2);
+        $$(inputs.required).shouldHaveSize(2);
         //invalid credentials
         userInputs.user();
         $("#id_username").setValue(userInputs.getValue("user", "username"));
@@ -62,10 +63,41 @@ public class HomeTest {
     }
 
     @Test
+    public void forgotPassword() {
+        $(By.xpath("//a[contains(.,'Sign in')]")).waitUntil(appear, 5000).click();
+        $(By.xpath("//a[contains(.,'Forgot password?')]")).click();
+        $("#reset_submit").click();
+        $(inputs.required).shouldBe(exist);
+        $("#id_email").setValue(auto).pressEnter();
+        $(By.xpath("//span[contains(.,'The email account that you tried to reach does not exist')]")).shouldBe(appear);
+        userInputs.user();
+        $("#id_email").setValue(userInputs.getValue("user1", "email")).pressEnter();
+        $(By.xpath("//div[contains(.,'Please check your email address for change your account password')]")).shouldBe(appear);
+        functions.openEmail();
+        $(By.xpath("//b[contains(.,'Reset account password')]")).waitUntil(appear, 5000).click();
+        if ($(By.xpath("//a[contains(.,'- Show quoted text -')]")).is(appear)) {
+            $(By.xpath("//a[contains(.,'- Show quoted text -')]")).click();
+        }
+        $(By.xpath("//a[contains(.,' here ')]")).waitUntil(appear, 5000).click();
+        switchTo().window(1);
+        $("#change_password_submit").waitUntil(appear, 10000).click();
+        $$(inputs.required).shouldHaveSize(2);
+        $("#id_password").setValue("1");
+        $(By.xpath("//span[contains(.,'Please enter at least 2 characters.')]")).shouldBe(appear);
+        $("#id_password").setValue(auto);
+        $("#id_password2").setValue(auto + auto);
+        $(By.xpath("//span[contains(.,'Please enter the same value again.')]")).shouldBe(appear);
+        $("#id_password").setValue(password);
+        $("#id_password2").setValue(password).pressEnter();
+        $(By.xpath("//div[contains(.,'Your password has been successfully changed')]")).shouldBe(appear);
+        functions.logIn(USER1);
+    }
+
+    @Test
     public void signUp() {
         $(By.xpath("//a[contains(.,'Sign Up')]")).waitUntil(appear, 5000).click();
         $(By.xpath("//input[contains(@value,'Sign-Up')]")).click();
-        $$(By.xpath("//span[contains(.,'This field is required.')]")).shouldHaveSize(6);
+        $$(inputs.required).shouldHaveSize(6);
         $("#id_name").setValue(auto);
         userInputs.user();
         $("#id_email").setValue(userInputs.getValue("user", "email"));
@@ -98,7 +130,7 @@ public class HomeTest {
     public void contactAs() {
         $(By.xpath("//a[contains(.,'Contact Us')]")).waitUntil(appear, 5000).click();
         $(By.xpath("//input[@value='SUBMIT']")).click();
-        $$(By.xpath("//span[contains(.,'This field is required.')]")).shouldHaveSize(3);
+        $$(inputs.required).shouldHaveSize(3);
         $("#id_name").setValue(auto);
         $("#id_email").setValue(auto);
         $(By.xpath("//span[contains(.,'Please enter a valid email address.')]")).waitUntil(appear, 5000).shouldBe(exist);
@@ -117,7 +149,6 @@ public class HomeTest {
         $(By.xpath("//div[contains(.,'Contact request!')]")).waitUntil(appear, 5000).shouldHave(text(auto));
         $(By.xpath("//div[contains(.,'Contact request!')]")).waitUntil(appear, 5000).shouldHave(text(email));
         $(By.xpath("//div[contains(.,'Contact request!')]")).waitUntil(appear, 5000).shouldHave(text(phoneNumber));
-
     }
 
     @Test
@@ -131,6 +162,4 @@ public class HomeTest {
         $(By.xpath("//a[contains(.,'View a demo')]")).waitUntil(appear, 5000).click();
         $(By.xpath("//h6[contains(.,'View Demo')]")).waitUntil(appear, 5000).shouldBe(exist);
     }
-
-
 }

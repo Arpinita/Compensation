@@ -1,5 +1,7 @@
 package Compensation.core;
 
+import org.openqa.selenium.By;
+
 import java.io.File;
 import java.util.*;
 
@@ -20,6 +22,7 @@ public class Inputs {
 
     public String auto = "auto" + randomAtoZ();
     public String password = "Password";
+    public By required = By.xpath("//span[contains(.,'This field is required.')]");
 
     public String randomAtoZ() {
         char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
