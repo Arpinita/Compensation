@@ -3,9 +3,6 @@ package Compensation.core;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by idska on 05-Dec-16.
- */
 public class UserInputs {
     public Map<String, Map> userMap = new HashMap<>();
     public Map<String, String> userInfo;
@@ -18,8 +15,10 @@ public class UserInputs {
         User user = new User();
         User user0 = new User();
         User user1 = new User();
+        User user99 = new User();
 
         //user
+        //admin
         userInfo = new HashMap<>();
         user.company = "";
         user.username = "stdevqa";
@@ -50,6 +49,23 @@ public class UserInputs {
         userInfo.put("lastName", user1.lastName);
         userInfo.put("email", user1.email);
         userMap.put("user1", userInfo);
+
+        //user99
+        //contactUs
+        userInfo = new HashMap<>();
+        user99.company = "admin";
+        user99.username = "stdevqa";
+        user99.password = "STDev123";
+        user99.name = "STDevQA";
+        user99.lastName = "Five";
+        user99.email = user99.username + "@stdevmail.com";
+        userInfo.put("company", user99.company);
+        userInfo.put("username", user99.username);
+        userInfo.put("password", user99.password);
+        userInfo.put("name", user99.name);
+        userInfo.put("lastName", user99.lastName);
+        userInfo.put("email", user99.email);
+        userMap.put("user99", userInfo);
 
     }
 

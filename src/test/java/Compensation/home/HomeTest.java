@@ -6,15 +6,21 @@ import org.junit.*;
 import org.junit.rules.TestRule;
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class HomeTest {
+
     @Rule
     public TestRule report = new TextReport().onFailedTest(true).onSucceededTest(true);
-    UserInputs userInputs = new UserInputs();
     Functions functions = new Functions();
+    UserInputs userInputs = new UserInputs();
+    Driver driver = new Driver();
+    Inputs inputs = new Inputs();
+    String auto = inputs.auto;
+    String password = inputs.password;
+    String email = auto + "@mailinator.com";
+    String phoneNumber = "+123123123";
 
     @Before
     public void doBefore() {
@@ -28,12 +34,103 @@ public class HomeTest {
 
     @Test
     public void singIn() {
-        userInputs.user();
+        //empty fields
         $(By.xpath("//a[contains(.,'Sign in')]")).waitUntil(appear, 5000).click();
         $(By.xpath("//input[@value='Login']")).click();
         $$(By.xpath("//span[contains(.,'This field is required.')]")).shouldHaveSize(2);
+        //invalid credentials
+        userInputs.user();
+        $("#id_username").setValue(userInputs.getValue("user", "username"));
+        $("#id_password").setValue(auto).pressEnter();
+        $(By.xpath("//li[contains(.,'Invalid username or password')]")).waitUntil(appear, 5000).shouldBe(exist);
+        //valid credentials
         $("#id_username").setValue(userInputs.getValue("user", "username"));
         $("#id_password").setValue(userInputs.getValue("user", "password")).pressEnter();
+        //Logout
+        $(By.xpath("//a[contains(.,'Logout')]")).waitUntil(appear, 5000).click();
+        $(By.xpath("//a[contains(.,'Sign in')]")).waitUntil(appear, 5000).shouldBe(exist);
+    }
+
+    @Test
+    public void blockedIp() {
+        $(By.xpath("//a[contains(.,'Sign in')]")).waitUntil(appear, 5000).click();
+        while ($(By.xpath("//div[contains(.,'Sorry, you were blocked')]")).is(not(appear))) {
+            $("#id_username").setValue(auto);
+            $("#id_password").setValue(auto).pressEnter();
+        }
+        functions.unblockIp();
+    }
+
+    @Test
+    public void signUp() {
+        $(By.xpath("//a[contains(.,'Sign Up')]")).waitUntil(appear, 5000).click();
+        $(By.xpath("//input[contains(@value,'Sign-Up')]")).click();
+        $$(By.xpath("//span[contains(.,'This field is required.')]")).shouldHaveSize(6);
+        $("#id_name").setValue(auto);
+        userInputs.user();
+        $("#id_email").setValue(userInputs.getValue("user", "email"));
+        $("#id_job_title").click();
+        $(By.xpath("//span[contains(.,'This email is already taken')]")).waitUntil(appear, 5000).shouldBe(exist);
+        $("#id_email").setValue(auto);
+        $(By.xpath("//span[contains(.,'Please enter a valid email address.')]")).waitUntil(appear, 5000).shouldBe(exist);
+        $("#id_email").clear();
+        $("#id_email").setValue(email);
+        $("#id_job_title").setValue(auto);
+        $("#id_phone_number").setValue(auto);
+        $(By.xpath("//span[contains(.,'Please enter a valid phone number')]")).waitUntil(appear, 5000).shouldBe(exist);
+        $("#id_phone_number").setValue(phoneNumber);
+        $("#id_company").setValue(auto);
+        $("#id_comment").setValue(auto);
+        $(By.xpath("//input[@value='Sign-Up']")).click();
+        $(By.xpath("//div[contains(.,'Your request has been sent successfully')]")).waitUntil(appear, 5000).shouldBe(exist);
+        //try to log in without confirmation of the account
+        functions.logIn(auto, password);
+        $(By.xpath("//li[contains(.,'Invalid username or password')]")).shouldBe(appear);
+        System.out.println("username = " + auto);
+        functions.confirmUser(auto);
+        open(driver.url);
+        //login after confirmation of account
+        functions.logIn(auto, password);
         $(By.xpath("//a[contains(.,'Logout')]")).waitUntil(appear, 5000).shouldBe(exist);
     }
+
+    @Test
+    public void contactAs() {
+        $(By.xpath("//a[contains(.,'Contact Us')]")).waitUntil(appear, 5000).click();
+        $(By.xpath("//input[@value='SUBMIT']")).click();
+        $$(By.xpath("//span[contains(.,'This field is required.')]")).shouldHaveSize(3);
+        $("#id_name").setValue(auto);
+        $("#id_email").setValue(auto);
+        $(By.xpath("//span[contains(.,'Please enter a valid email address.')]")).waitUntil(appear, 5000).shouldBe(exist);
+        $("#id_email").setValue(email);
+        $("#id_job_title").setValue(auto);
+        $("#id_phone_number").setValue(auto);
+        $("#id_company").click();
+        $(By.xpath("//span[contains(.,'Please enter a valid phone number')]")).waitUntil(appear, 5000).shouldBe(exist);
+        $("#id_phone_number").setValue(phoneNumber);
+        $("#id_company").setValue(auto);
+        $("#id_message").setValue(auto);
+        $(By.xpath("//input[@value='SUBMIT']")).click();
+        $(By.xpath("//div[contains(.,'Your message has been successfully sent')]")).waitUntil(appear, 5000).shouldBe(exist);
+        functions.openEmail();
+        $(By.xpath("//b[contains(.,'" + auto + "')]/../../td[3]")).waitUntil(appear, 5000).click();
+        $(By.xpath("//div[contains(.,'Contact request!')]")).waitUntil(appear, 5000).shouldHave(text(auto));
+        $(By.xpath("//div[contains(.,'Contact request!')]")).waitUntil(appear, 5000).shouldHave(text(email));
+        $(By.xpath("//div[contains(.,'Contact request!')]")).waitUntil(appear, 5000).shouldHave(text(phoneNumber));
+
+    }
+
+    @Test
+    public void aboutAs() {
+        $(By.xpath("//a[contains(.,'About Us')]")).waitUntil(appear, 5000).click();
+        $(By.xpath("//h6[contains(.,'About Us')]")).waitUntil(appear, 5000).shouldBe(exist);
+    }
+
+    @Test
+    public void viewADemo() {
+        $(By.xpath("//a[contains(.,'View a demo')]")).waitUntil(appear, 5000).click();
+        $(By.xpath("//h6[contains(.,'View Demo')]")).waitUntil(appear, 5000).shouldBe(exist);
+    }
+
+
 }
