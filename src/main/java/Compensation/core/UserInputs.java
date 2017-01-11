@@ -35,6 +35,7 @@ public class UserInputs {
         userMap.put("user", userInfo);
 
         //user1
+        //forgotPassword
         userInfo = new HashMap<>();
         user1.company = "admin";
         user1.username = "stdevqa5";
@@ -66,7 +67,6 @@ public class UserInputs {
         userInfo.put("lastName", user99.lastName);
         userInfo.put("email", user99.email);
         userMap.put("user99", userInfo);
-
     }
 
     public static class User {

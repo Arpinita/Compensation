@@ -128,7 +128,7 @@ public class HomeTest {
 
     @Test
     public void contactAs() {
-        $(By.xpath("//a[contains(.,'Contact Us')]")).waitUntil(appear, 5000).click();
+        /*$(By.xpath("//a[contains(.,'Contact Us')]")).waitUntil(appear, 5000).click();
         $(By.xpath("//input[@value='SUBMIT']")).click();
         $$(inputs.required).shouldHaveSize(3);
         $("#id_name").setValue(auto);
@@ -143,8 +143,13 @@ public class HomeTest {
         $("#id_company").setValue(auto);
         $("#id_message").setValue(auto);
         $(By.xpath("//input[@value='SUBMIT']")).click();
-        $(By.xpath("//div[contains(.,'Your message has been successfully sent')]")).waitUntil(appear, 5000).shouldBe(exist);
+        $(By.xpath("//div[contains(.,'Your message has been successfully sent')]")).waitUntil(appear, 5000).shouldBe(exist);*/
         functions.openEmail();
+        for (int i = 1; i <= 5; i++) {
+            if ($(By.xpath("//b[contains(.,'" + auto + "')]/../../td[3]")).is(not(appear))) {
+                refresh();
+            }
+        }
         $(By.xpath("//b[contains(.,'" + auto + "')]/../../td[3]")).waitUntil(appear, 5000).click();
         $(By.xpath("//div[contains(.,'Contact request!')]")).waitUntil(appear, 5000).shouldHave(text(auto));
         $(By.xpath("//div[contains(.,'Contact request!')]")).waitUntil(appear, 5000).shouldHave(text(email));
